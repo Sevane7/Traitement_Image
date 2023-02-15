@@ -8,9 +8,9 @@ namespace ProblemeScientifique
 {
     internal class Pixel
     {
-        private int blue;
-        private int red;
-        private int green;
+        private byte blue;
+        private byte red;
+        private byte green;
 
         /// <summary>
         /// Pixel en BGR
@@ -18,29 +18,38 @@ namespace ProblemeScientifique
         /// <param name="blue"></param>
         /// <param name="red"></param>
         /// <param name="green"></param>
-        public Pixel(int blue, int red, int green)
+        public Pixel(byte blue, byte red, byte green)
         {
             this.blue = blue;
             this.green = green;
             this.red = red;
         }
 
-        public int Blue
+        /// <summary>
+        /// Proprété en écriture et en lecture du bleu
+        /// </summary>
+        public byte Blue
         {
-            get { return blue; }
-            set { blue = value; }
+            get { return this.blue; }
+            set { this.blue = value; }
         }
 
-        public int Red
+        /// <summary>
+        /// Proprété en écriture et en lecture du rouge
+        /// </summary>
+        public byte Red
         {
-            get { return red; }
-            set { red = value; }
+            get { return this.red; }
+            set { this.red = value; }
         }
 
-        public int Green
+        /// <summary>
+        /// Proprété en écriture et en lecture du vert
+        /// </summary>
+        public byte Green
         {
-            get { return green; }
-            set { blue = value; }
+            get { return this.green; }
+            set { this.blue = value; }
         }
     }
 }

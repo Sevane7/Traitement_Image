@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\sevan\\OneDrive - De Vinci\\A2\\S4\\Info\\Pb Scientifique Info\\Traitement_Image\\ProblemeScientifique\\ProblemeScientifique.csproj",
-      "projectName": "ProblemeScientifique",
-      "projectPath": "C:\\Users\\sevan\\OneDrive - De Vinci\\A2\\S4\\Info\\Pb Scientifique Info\\Traitement_Image\\ProblemeScientifique\\ProblemeScientifique.csproj",
+      "projectUniqueName": "C:\\Users\\sevan\\OneDrive - De Vinci\\A2\\S4\\Info\\Pb Scientifique Info\\Traitement_Image\\Asyoulike\\Asyoulike.csproj",
+      "projectName": "Asyoulike",
+      "projectPath": "C:\\Users\\sevan\\OneDrive - De Vinci\\A2\\S4\\Info\\Pb Scientifique Info\\Traitement_Image\\Asyoulike\\Asyoulike.csproj",
       "packagesPath": "C:\\Users\\sevan\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\sevan\\OneDrive - De Vinci\\A2\\S4\\Info\\Pb Scientifique Info\\Traitement_Image\\ProblemeScientifique\\obj\\",
+      "outputPath": "C:\\Users\\sevan\\OneDrive - De Vinci\\A2\\S4\\Info\\Pb Scientifique Info\\Traitement_Image\\Asyoulike\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -66,7 +66,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.103\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
       }
     }
   }

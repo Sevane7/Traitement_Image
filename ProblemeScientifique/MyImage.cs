@@ -51,13 +51,13 @@ namespace ProblemeScientifique
             //    - hauteur et largeur pour les dimensions
             //    - 3 bytes consécutifs représentent 1 pixels
             
-            this.pixels = new Pixel [this.hauteur * 3, this.largeur * 3];
+            this.pixels = new Pixel [this.hauteur, this.largeur];
 
             // i percours les bytes de la 54ème position jusqu'au dernier, soit toute l'image
-            for(int i = 54; i < myfile.Length; i = i + this.pixels.GetLength(1))
+            for(int i = 54; i < myfile.Length; i = i + this.pixels.GetLength(1) * 3)
             {
                 // j allant de 54 jusqu'à la fin de la largeur
-                for(int j = i + 3; j < i + this.pixels.GetLength(1); j = j + 3)
+                for(int j = i + 3; j < i + this.pixels.GetLength(1) * 3; j = j + 3)
                 {
                     this.pixels[i - 54, j - 54] = new Pixel(bytes[j - 3], bytes[j - 2], bytes[j - 1]);
                 }
@@ -213,25 +213,23 @@ namespace ProblemeScientifique
 
             //Image
 
-            for(int i = 0; i < image.MatPix.GetLength(0) * 3; i++)
+            //Parcours la matrice de pixel de image
+            //ajoute les bites correspondants dans la liste
+            for(int i = 0; i < image.MatPix.GetLength(0); i++)
             {
                 for(int j = 0; j < image.MatPix.GetLength(1); j++)
                 {
-                    
+                    byts_list.Add(image.MatPix[i,j].Blue);
+                    byts_list.Add(image.MatPix[i,j].Red);
+                    byts_list.Add(image.MatPix[i,j].Green);
                 }
             }
-
-
-
-
-
 
             byts_tab = new byte[byts_list.Count];
             for (int i = 0; i < byts_list.Count; i++)
             {
                 byts_tab[i] = byts_list[i];
             }
-
 
             File.WriteAllBytes(file, byts_tab);
             
@@ -244,9 +242,7 @@ namespace ProblemeScientifique
             //byte[] = Math.Pow(256,);
 
 
-            return res;
-
-        
+            return res;    
         }
     }
 }

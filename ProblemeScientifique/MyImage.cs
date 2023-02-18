@@ -235,14 +235,45 @@ namespace ProblemeScientifique
             
         }
 
+
+        /// <summary>
+        /// Converti un little endian en décimale
+        /// Parours le tableau dans le sens inverse, car little endian
+        /// Multiplie sa valeur par la puissance de 256 correspondante, en fonction de la position de l'élément dans le tableau
+        /// Retourn la somme de toutes ces valeurs
+        /// </summary>
+        /// <param name="tab"></param>
+        /// <returns></returns>
         public int Convertir_Endian_To_Int(byte[] tab)
         {
-            int res = 0;
+            int result = 0;
 
-            //byte[] = Math.Pow(256,);
+            for (int i = tab.Length - 1; i >= 0; i--)
+            {
+                result += tab[i] * (int)Math.Pow(256, tab.Length - i - 1);
+            }
 
+            return result;
 
-            return res;    
+        }
+
+        /// <summary>
+        /// Converti un int en little endian
+        /// Extrait les 8 bits correspondants de la valeur décimale à l'aide de l'opérateur de décalage vers la droite
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="size_endian"></param>
+        /// <returns></returns>
+        public byte[] Convertir_Int_To_Endian(int value, int size_endian)
+        {
+            byte[] result = new byte[size_endian];
+
+            for(int i = 0; i < size_endian; i++)
+            {
+                result[i] = (byte)(value >> (i * 8));
+            }
+
+            return result;
         }
     }
 }

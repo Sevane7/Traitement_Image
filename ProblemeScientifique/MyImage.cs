@@ -39,13 +39,17 @@ namespace ProblemeScientifique
             //bytes est un vecteur composé d'octets représentant les métadonnées et les données de l'image
             byte[] bytes = File.ReadAllBytes(myfile);
 
-            this.file_size = bytes[2];
+            byte[] size = new byte[] { bytes[2], bytes[3], bytes[4], bytes[5] };
+            this.file_size = Convertir_Endian_To_Int(size);
 
-            this.largeur = bytes[18];
+            byte[] larg = new byte[] { bytes[18], bytes[19], bytes[20], bytes[21] };
+            this.largeur = Convertir_Endian_To_Int(larg);
 
-            this.hauteur = bytes[22];
+            byte[] haut = new byte[] { bytes[22], bytes[23], bytes[24], bytes[25] };
+            this.hauteur = Convertir_Endian_To_Int(haut);
 
-            this.bitsParCouleur = bytes[28];
+            byte[] bitsparcoul = new byte[] { bytes[28], bytes[29] };
+            this.bitsParCouleur = Convertir_Endian_To_Int(bitsparcoul);
 
             //On rempli la matrice de pixel avec les informations :
             //    - hauteur et largeur pour les dimensions
@@ -111,7 +115,6 @@ namespace ProblemeScientifique
             set { this.bitsParCouleur = value; }
         }
 
-
         /// <summary>
         /// prend une instance de MyImage et la transforme en fichier binaire respectant la structure du fichier.bmp
         /// </summary>
@@ -128,10 +131,8 @@ namespace ProblemeScientifique
             byts_list.Add(77);
 
             //Size
-            byts_list.Add((byte)image.File_Size);
-            byts_list.Add(4);
-            byts_list.Add(0);
-            byts_list.Add(0);
+            byte[] size = image.Convertir_Int_To_Endian(image.File_Size, 4);
+            for(int i = 0; i < size.Length; i++) { byts_list.Add(size[i]); }
 
             //champ réservé
             byts_list.Add(0);
@@ -154,16 +155,12 @@ namespace ProblemeScientifique
             byts_list.Add(0);
 
             //Largeur
-            byts_list.Add((byte)image.Largeur);
-            byts_list.Add(0);
-            byts_list.Add(0);
-            byts_list.Add(0);
+            byte[] larg = image.Convertir_Int_To_Endian(image.Largeur, 4);
+            for (int i = 0; i < larg.Length; i++) { byts_list.Add(larg[i]); }
 
             //Hauteur
-            byts_list.Add((byte)image.Hauteur);
-            byts_list.Add(0);
-            byts_list.Add(0);
-            byts_list.Add(0);
+            byte[] haut = image.Convertir_Int_To_Endian(image.Hauteur, 4);
+            for (int i = 0; i < haut.Length; i++) { byts_list.Add(haut[i]); }
 
             //Nombre de plan par image
             byts_list.Add(1);
@@ -180,10 +177,13 @@ namespace ProblemeScientifique
             byts_list.Add(0);
 
             //Taille de l'image incluant le remplissage
-            byts_list.Add((byte)image.File_Size);
-            byts_list.Add(4);
-            byts_list.Add(0);
-            byts_list.Add(0);
+            for (int i = 0; i < size.Length; i++) 
+            {
+                if (i == 0) byts_list.Add((byte)(size[i] - 54));
+                else byts_list.Add(size[i]);
+
+                byts_list.Add((byte)( i == 0 ? (size[i] - 54) : (size[i])));
+            }
 
 
             //Résolution horizontale
@@ -235,7 +235,6 @@ namespace ProblemeScientifique
             
         }
 
-
         /// <summary>
         /// Converti un little endian en décimale
         /// Parours le tableau dans le sens inverse, car little endian
@@ -248,9 +247,9 @@ namespace ProblemeScientifique
         {
             int result = 0;
 
-            for (int i = tab.Length - 1; i >= 0; i--)
+            for (int i = 0; i < tab.Length; i++)
             {
-                result += tab[i] * (int)Math.Pow(256, tab.Length - i - 1);
+                result += tab[i] * (int)Math.Pow(256, i);
             }
 
             return result;
@@ -259,7 +258,6 @@ namespace ProblemeScientifique
 
         /// <summary>
         /// Converti un int en little endian
-        /// Extrait les 8 bits correspondants de la valeur décimale à l'aide de l'opérateur de décalage vers la droite
         /// </summary>
         /// <param name="value"></param>
         /// <param name="size_endian"></param>
@@ -268,12 +266,22 @@ namespace ProblemeScientifique
         {
             byte[] result = new byte[size_endian];
 
-            for(int i = 0; i < size_endian; i++)
+            result = BitConverter.GetBytes(value);
+
+            if(!BitConverter.IsLittleEndian)
             {
-                result[i] = (byte)(value >> (i * 8));
+                Array.Reverse(result);
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Affiche la taille, la largeur et la hauteur dans une console.
+        /// </summary>
+        public void ToString()
+        {
+            Console.WriteLine($" taille : {this.file_size}\n largeur : {this.largeur}\n hauteur : {this.hauteur}\n Bits par couleur : {this.bitsParCouleur}");
         }
     }
 }

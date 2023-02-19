@@ -1,0 +1,15 @@
+C:\Users\sevan\OneDrive - De Vinci\A2\S4\Info\Pb Scientifique Info\Traitement_Image\ProblemeScientifique\bin\Debug\net6.0\ProblemeScientifique.exe
+C:\Users\sevan\OneDrive - De Vinci\A2\S4\Info\Pb Scientifique Info\Traitement_Image\ProblemeScientifique\bin\Debug\net6.0\ProblemeScientifique.deps.json
+C:\Users\sevan\OneDrive - De Vinci\A2\S4\Info\Pb Scientifique Info\Traitement_Image\ProblemeScientifique\bin\Debug\net6.0\ProblemeScientifique.runtimeconfig.json
+C:\Users\sevan\OneDrive - De Vinci\A2\S4\Info\Pb Scientifique Info\Traitement_Image\ProblemeScientifique\bin\Debug\net6.0\ProblemeScientifique.dll
+C:\Users\sevan\OneDrive - De Vinci\A2\S4\Info\Pb Scientifique Info\Traitement_Image\ProblemeScientifique\bin\Debug\net6.0\ProblemeScientifique.pdb
+C:\Users\sevan\OneDrive - De Vinci\A2\S4\Info\Pb Scientifique Info\Traitement_Image\ProblemeScientifique\obj\Debug\net6.0\ProblemeScientifique.csproj.AssemblyReference.cache
+C:\Users\sevan\OneDrive - De Vinci\A2\S4\Info\Pb Scientifique Info\Traitement_Image\ProblemeScientifique\obj\Debug\net6.0\ProblemeScientifique.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\sevan\OneDrive - De Vinci\A2\S4\Info\Pb Scientifique Info\Traitement_Image\ProblemeScientifique\obj\Debug\net6.0\ProblemeScientifique.AssemblyInfoInputs.cache
+C:\Users\sevan\OneDrive - De Vinci\A2\S4\Info\Pb Scientifique Info\Traitement_Image\ProblemeScientifique\obj\Debug\net6.0\ProblemeScientifique.AssemblyInfo.cs
+C:\Users\sevan\OneDrive - De Vinci\A2\S4\Info\Pb Scientifique Info\Traitement_Image\ProblemeScientifique\obj\Debug\net6.0\ProblemeScientifique.csproj.CoreCompileInputs.cache
+C:\Users\sevan\OneDrive - De Vinci\A2\S4\Info\Pb Scientifique Info\Traitement_Image\ProblemeScientifique\obj\Debug\net6.0\ProblemeScientifique.dll
+C:\Users\sevan\OneDrive - De Vinci\A2\S4\Info\Pb Scientifique Info\Traitement_Image\ProblemeScientifique\obj\Debug\net6.0\refint\ProblemeScientifique.dll
+C:\Users\sevan\OneDrive - De Vinci\A2\S4\Info\Pb Scientifique Info\Traitement_Image\ProblemeScientifique\obj\Debug\net6.0\ProblemeScientifique.pdb
+C:\Users\sevan\OneDrive - De Vinci\A2\S4\Info\Pb Scientifique Info\Traitement_Image\ProblemeScientifique\obj\Debug\net6.0\ProblemeScientifique.genruntimeconfig.cache
+C:\Users\sevan\OneDrive - De Vinci\A2\S4\Info\Pb Scientifique Info\Traitement_Image\ProblemeScientifique\obj\Debug\net6.0\ref\ProblemeScientifique.dll

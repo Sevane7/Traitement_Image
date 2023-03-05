@@ -51,5 +51,19 @@ namespace ProblemeScientifique
             get { return this.green; }
             set { this.blue = value; }
         }
+
+        /// <summary>
+        /// Retourne la version gris nuancé du pixel
+        /// Chaque byte du pixel transformé devient la moyenne des trois bytes
+        /// </summary>
+        /// <returns></returns>
+        public Pixel Grey()
+        {
+            byte moy = Convert.ToByte((this.blue + this.green + this.green) / 3);
+
+            Pixel gris = new Pixel(moy, moy, moy);
+
+            return gris;
+        }
     }
 }

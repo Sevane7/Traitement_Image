@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.Threading.Tasks;
 
 namespace ProblemeScientifique
@@ -248,9 +246,7 @@ namespace ProblemeScientifique
             int result = 0;
 
             for (int i = 0; i < tab.Length; i++)
-            {
                 result += tab[i] * (int)Math.Pow(256, i);
-            }
 
             return result;
 
@@ -274,6 +270,28 @@ namespace ProblemeScientifique
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Retourne l'image en nuance de Gris
+        /// Prend une image en paramètre
+        /// Utilise la méthode Grey() de la classe pixel
+        /// </summary>
+        /// <param name="image"></param>
+        /// <returns></returns>
+        public MyImage Nuance_De_Gris(MyImage image)
+        {
+            MyImage res = new MyImage(image.MatPix);
+
+            for(int i = 0; i < image.MatPix.GetLength(0); i++)
+            {
+                for(int j = 0; j < image.MatPix.GetLength(1); j++)
+                {
+                    res.MatPix[i, j] = image.MatPix[i, j].Grey();
+                }
+            }
+
+            return res;
         }
 
         /// <summary>

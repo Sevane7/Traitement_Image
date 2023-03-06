@@ -56,16 +56,17 @@ namespace ProblemeScientifique
             this.pixels = new Pixel [this.hauteur, this.largeur];
 
             // i percours les bytes de la 54ème position jusqu'au dernier, soit toute l'image
-            for(int i = 54; i < myfile.Length; i = i + this.pixels.GetLength(1) * 3)
+
+            int index = 54;
+            for(int i = 0; i < this.pixels.GetLength(0); i++)
             {
                 // j allant de 54 jusqu'à la fin de la largeur
-                for(int j = i + 3; j < i + this.pixels.GetLength(1) * 3; j = j + 3)
+                for(int j = 0; j < this.pixels.GetLength(1); j++)
                 {
-                    this.pixels[i - 54, j - 54] = new Pixel(bytes[j - 3], bytes[j - 2], bytes[j - 1]);
+                    this.pixels[i, j] = new Pixel(bytes[index], bytes[index + 1], bytes[index + 2]);
+                    index += 3;
                 }
             }
-
-
         }
 
         /// <summary>
@@ -119,7 +120,7 @@ namespace ProblemeScientifique
         /// <param name="file"></param>
         public void From_image_to_file(string file, MyImage image)
         {
-            List <byte> byts_list = null;
+            List <byte> byts_list = new List<byte> { };
             byte[] byts_tab = null;
 
             //Header
@@ -180,7 +181,7 @@ namespace ProblemeScientifique
                 if (i == 0) byts_list.Add((byte)(size[i] - 54));
                 else byts_list.Add(size[i]);
 
-                byts_list.Add((byte)( i == 0 ? (size[i] - 54) : (size[i])));
+                //byts_list.Add((byte)( i == 0 ? (size[i] - 54) : (size[i])));
             }
 
 
@@ -279,19 +280,15 @@ namespace ProblemeScientifique
         /// </summary>
         /// <param name="image"></param>
         /// <returns></returns>
-        public MyImage Nuance_De_Gris(MyImage image)
+        public void Nuance_De_Gris()
         {
-            MyImage res = new MyImage(image.MatPix);
-
-            for(int i = 0; i < image.MatPix.GetLength(0); i++)
+            for(int i = 0; i < MatPix.GetLength(0); i++)
             {
-                for(int j = 0; j < image.MatPix.GetLength(1); j++)
+                for(int j = 0; j < MatPix.GetLength(1); j++)
                 {
-                    res.MatPix[i, j] = image.MatPix[i, j].Grey();
+                    MatPix[i, j] = MatPix[i, j].Grey();
                 }
             }
-
-            return res;
         }
 
         /// <summary>

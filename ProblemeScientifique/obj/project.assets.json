@@ -8,23 +8,23 @@
     "net6.0": []
   },
   "packageFolders": {
-    "C:\\Users\\sevan\\.nuget\\packages\\": {},
+    "C:\\Users\\mehdi\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\sevan\\OneDrive - De Vinci\\A2\\S4\\Info\\Pb Scientifique Info\\Traitement_Image\\ProblemeScientifique\\ProblemeScientifique.csproj",
+      "projectUniqueName": "C:\\Users\\mehdi\\OneDrive\\Bureau\\A2 ESILV 2022\\Info\\Algo et POO\\PSI2023\\Traitement_Image\\ProblemeScientifique\\ProblemeScientifique.csproj",
       "projectName": "ProblemeScientifique",
-      "projectPath": "C:\\Users\\sevan\\OneDrive - De Vinci\\A2\\S4\\Info\\Pb Scientifique Info\\Traitement_Image\\ProblemeScientifique\\ProblemeScientifique.csproj",
-      "packagesPath": "C:\\Users\\sevan\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\sevan\\OneDrive - De Vinci\\A2\\S4\\Info\\Pb Scientifique Info\\Traitement_Image\\ProblemeScientifique\\obj\\",
+      "projectPath": "C:\\Users\\mehdi\\OneDrive\\Bureau\\A2 ESILV 2022\\Info\\Algo et POO\\PSI2023\\Traitement_Image\\ProblemeScientifique\\ProblemeScientifique.csproj",
+      "packagesPath": "C:\\Users\\mehdi\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\mehdi\\OneDrive\\Bureau\\A2 ESILV 2022\\Info\\Algo et POO\\PSI2023\\Traitement_Image\\ProblemeScientifique\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\sevan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\mehdi\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -66,7 +66,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.200\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
       }
     }
   }

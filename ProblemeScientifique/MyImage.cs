@@ -15,7 +15,6 @@ namespace ProblemeScientifique
         private int bitsParCouleur = 24;
         private Pixel [,] pixels;
 
-
         /// <summary>
         /// Constructeur en fonctions d'une matrice de pixel
         /// </summary>
@@ -56,16 +55,17 @@ namespace ProblemeScientifique
             this.pixels = new Pixel [this.hauteur, this.largeur];
 
             // i percours les bytes de la 54ème position jusqu'au dernier, soit toute l'image
-            for(int i = 54; i < myfile.Length; i = i + this.pixels.GetLength(1) * 3)
+
+            int index = 54;
+            for(int i = 0; i < this.pixels.GetLength(0); i++)
             {
                 // j allant de 54 jusqu'à la fin de la largeur
-                for(int j = i + 3; j < i + this.pixels.GetLength(1) * 3; j = j + 3)
+                for(int j = 0; j < this.pixels.GetLength(1); j++)
                 {
-                    this.pixels[i - 54, j - 54] = new Pixel(bytes[j - 3], bytes[j - 2], bytes[j - 1]);
+                    this.pixels[i, j] = new Pixel(bytes[index], bytes[index + 1], bytes[index + 2]);
+                    index += 3;
                 }
             }
-
-
         }
 
         /// <summary>
@@ -114,12 +114,20 @@ namespace ProblemeScientifique
         }
 
         /// <summary>
+        /// Affiche la taille, la largeur et la hauteur dans une console.
+        /// </summary>
+        public void ToString()
+        {
+            Console.WriteLine($" taille : {this.file_size}\n largeur : {this.largeur}\n hauteur : {this.hauteur}\n Bits par couleur : {this.bitsParCouleur}");
+        }
+
+        /// <summary>
         /// prend une instance de MyImage et la transforme en fichier binaire respectant la structure du fichier.bmp
         /// </summary>
         /// <param name="file"></param>
         public void From_image_to_file(string file, MyImage image)
         {
-            List <byte> byts_list = null;
+            List <byte> byts_list = new List<byte> { };
             byte[] byts_tab = null;
 
             //Header
@@ -180,7 +188,7 @@ namespace ProblemeScientifique
                 if (i == 0) byts_list.Add((byte)(size[i] - 54));
                 else byts_list.Add(size[i]);
 
-                byts_list.Add((byte)( i == 0 ? (size[i] - 54) : (size[i])));
+                //byts_list.Add((byte)( i == 0 ? (size[i] - 54) : (size[i])));
             }
 
 
@@ -234,7 +242,7 @@ namespace ProblemeScientifique
         }
 
         /// <summary>
-        /// Converti un little endian en décimale
+        /// Retourne un int. Converti un little endian en décimale
         /// Parours le tableau dans le sens inverse, car little endian
         /// Multiplie sa valeur par la puissance de 256 correspondante, en fonction de la position de l'élément dans le tableau
         /// Retourn la somme de toutes ces valeurs
@@ -249,11 +257,10 @@ namespace ProblemeScientifique
                 result += tab[i] * (int)Math.Pow(256, i);
 
             return result;
-
         }
 
         /// <summary>
-        /// Converti un int en little endian
+        /// Retourne un tableau de byte. Converti un int en little endian
         /// </summary>
         /// <param name="value"></param>
         /// <param name="size_endian"></param>
@@ -273,33 +280,439 @@ namespace ProblemeScientifique
         }
 
         /// <summary>
-        /// Retourne l'image en nuance de Gris
-        /// Prend une image en paramètre
+        /// Transforme l'instance de l'image en nuance de Gris
         /// Utilise la méthode Grey() de la classe pixel
         /// </summary>
         /// <param name="image"></param>
         /// <returns></returns>
-        public MyImage Nuance_De_Gris(MyImage image)
+        public void Nuance_De_Gris()
         {
-            MyImage res = new MyImage(image.MatPix);
-
-            for(int i = 0; i < image.MatPix.GetLength(0); i++)
+            for(int i = 0; i < MatPix.GetLength(0); i++)
             {
-                for(int j = 0; j < image.MatPix.GetLength(1); j++)
+                for(int j = 0; j < MatPix.GetLength(1); j++)
                 {
-                    res.MatPix[i, j] = image.MatPix[i, j].Grey();
+                    MatPix[i, j] = MatPix[i, j].Grey();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Retourne une image agrandie de l'instance par un coef
+        /// </summary>
+        /// <param name="coef"></param>
+        /// <returns></returns>
+        public MyImage Agrandissement(int coef)
+        {
+            Pixel[,] pix_ag = new Pixel[MatPix.GetLength(0) * coef, MatPix.GetLength(1) * coef];
+            MyImage res_ag = new MyImage(pix_ag);
+
+            /*
+
+            //1) Selectionner la zone conservée de l'image 
+            int H_conserv = (int)(MatPix.GetLength(0) / coef);
+            int L_conserv = (int)(MatPix.GetLength(1) / coef);
+
+            Pixel[,] Pix_conserv = new Pixel[H_conserv, L_conserv];
+
+            int H_Init = MatPix.GetLength(0);
+            int L_Init = MatPix.GetLength(1);
+
+            //2) Parcourir Pix_conserv
+            int H_Index_Deb = (H_Init - H_conserv) / coef;
+            int H_Index_Fin = H_Init - H_Index_Deb;
+            int L_Index_Deb = (L_Init - L_conserv) / coef;
+            int L_Index_Fin = L_Init - L_Index_Deb;
+
+            //Remplir Pix_conserv avec les pixels centraux de l'image init
+            for (int i = H_Index_Deb; i < H_Index_Fin; i++)
+            {
+                for (int j = L_Index_Deb; j < L_Index_Fin; j++)
+                {
+                    Pix_conserv[i - H_Index_Deb, j - L_Index_Deb] = MatPix[i, j];
+                }
+            }
+            //4) Remplir la nouvelle image
+            */
+
+            for (int i = 0; i < MatPix.GetLength(0); i++)
+            {
+                for (int j = 0; j < MatPix.GetLength(1); j++)
+                {                   
+                    for(int k = 0; k < coef; k++)
+                    {
+                        for(int l = 0; l < coef; l++)
+                        {
+                            res_ag.MatPix[i * coef + k,j * coef + l] = MatPix[i,j];
+                        }                      
+                    }
+                    
                 }
             }
 
+            return res_ag;
+        }
+
+        /// <summary>
+        /// Retourne une image zommée au centre par un certain coef
+        /// Utilise la méthode Agrandissement
+        /// </summary>
+        /// <param name="coef"></param>
+        /// <returns></returns>
+        public MyImage Zoom(int coef)
+        {
+            MyImage Image_ag = new MyImage(MatPix);
+            Image_ag = Image_ag.Agrandissement(coef);
+
+            Console.WriteLine(Image_ag.MatPix.GetLength(0));
+            Console.WriteLine(Image_ag.MatPix.GetLength(1));
+
+            Pixel[,] respix = new Pixel[MatPix.GetLength(0), MatPix.GetLength(1)]; 
+            MyImage res = new MyImage(respix);
+
+            int H_dep = (Image_ag.MatPix.GetLength(0) - res.MatPix.GetLength(0)) / 2;
+            int L_dep = (Image_ag.MatPix.GetLength(1) - res.MatPix.GetLength(1)) / 2;
+
+            for(int i = 0; i < res.MatPix.GetLength(0); i++)
+            {
+                for(int j = 0; j< res.MatPix.GetLength(1); j++)
+                {
+                    res.MatPix[i , j] = Image_ag.MatPix[H_dep + i,L_dep + j];
+                }
+            }
             return res;
         }
 
         /// <summary>
-        /// Affiche la taille, la largeur et la hauteur dans une console.
+        /// Retourne une liste de pixel
+        /// Effectue la multiplication du voisinage d'un pixel et d'un noyeau (stocke le tout sous forme de liste) 
         /// </summary>
-        public void ToString()
+        /// <param name="noyeau"></param>
+        /// <returns></returns>
+        public List <Pixel> Pixelvoisin_X_noyeau(double[,] noyeau, int pos_H, int pos_L)
         {
-            Console.WriteLine($" taille : {this.file_size}\n largeur : {this.largeur}\n hauteur : {this.hauteur}\n Bits par couleur : {this.bitsParCouleur}");
+            List<Pixel> pixelvoisin = new List<Pixel>();
+            
+            if (pos_H == 0)
+            {
+                if (pos_L == 0)
+                {
+                    //Stratégie Miroir : pos_L - 1 (out of range) est pareil que pos_L + 1
+                    //                   pos_H - 1 (out of range) est pareil que pos_H + 1
+                    pixelvoisin.Add(MatPix[pos_H + 1, pos_L + 1].Mult(noyeau[0, 0]));
+                    pixelvoisin.Add(MatPix[pos_H + 1, pos_L].Mult(noyeau[0, 1]));
+                    pixelvoisin.Add(MatPix[pos_H + 1, pos_L + 1].Mult(noyeau[0, 2]));
+
+                    pixelvoisin.Add(MatPix[pos_H, pos_L + 1].Mult(noyeau[1, 0]));
+                    pixelvoisin.Add(MatPix[pos_H, pos_L].Mult(noyeau[1, 1]));
+                    pixelvoisin.Add(MatPix[pos_H, pos_L + 1].Mult(noyeau[1, 2]));
+
+                    pixelvoisin.Add(MatPix[pos_H + 1, pos_L + 1].Mult(noyeau[2, 0]));
+                    pixelvoisin.Add(MatPix[pos_H + 1, pos_L].Mult(noyeau[2, 1]));
+                    pixelvoisin.Add(MatPix[pos_H + 1, pos_L + 1].Mult(noyeau[2, 2]));
+                    return pixelvoisin;
+                }
+                if (pos_L == Largeur - 1)
+                {
+                    //Stratégie Miroir : pos_L + 1 (out of range) est pareil que pos_L - 1
+                    //                   pos_H - 1 (out of range) est pareil que pos_H + 1
+                    pixelvoisin.Add(MatPix[pos_H + 1, pos_L - 1].Mult(noyeau[0, 0]));
+                    pixelvoisin.Add(MatPix[pos_H + 1, pos_L].Mult(noyeau[0, 1]));
+                    pixelvoisin.Add(MatPix[pos_H + 1, pos_L - 1].Mult(noyeau[0, 2]));
+
+                    pixelvoisin.Add(MatPix[pos_H, pos_L - 1].Mult(noyeau[1, 0]));
+                    pixelvoisin.Add(MatPix[pos_H, pos_L].Mult(noyeau[1, 1]));
+                    pixelvoisin.Add(MatPix[pos_H, pos_L - 1].Mult(noyeau[1, 2]));
+
+                    pixelvoisin.Add(MatPix[pos_H + 1, pos_L - 1].Mult(noyeau[2, 0]));
+                    pixelvoisin.Add(MatPix[pos_H + 1, pos_L].Mult(noyeau[2, 1]));
+                    pixelvoisin.Add(MatPix[pos_H + 1, pos_L - 1].Mult(noyeau[2, 2]));
+                    return pixelvoisin;
+                }
+                else
+                {
+                    //Stratégie miroir : pos_H - 1 (out of range) est pareil que pos_H + 1
+                    pixelvoisin.Add(MatPix[pos_H + 1, pos_L - 1].Mult(noyeau[0, 0]));
+                    pixelvoisin.Add(MatPix[pos_H + 1, pos_L].Mult(noyeau[0, 1]));
+                    pixelvoisin.Add(MatPix[pos_H + 1, pos_L + 1].Mult(noyeau[0, 2]));
+
+                    pixelvoisin.Add(MatPix[pos_H, pos_L - 1].Mult(noyeau[1, 0]));
+                    pixelvoisin.Add(MatPix[pos_H, pos_L].Mult(noyeau[1, 1]));
+                    pixelvoisin.Add(MatPix[pos_H, pos_L + 1].Mult(noyeau[1, 2]));
+
+                    pixelvoisin.Add(MatPix[pos_H + 1, pos_L - 1].Mult(noyeau[2, 0]));
+                    pixelvoisin.Add(MatPix[pos_H + 1, pos_L].Mult(noyeau[2, 1]));
+                    pixelvoisin.Add(MatPix[pos_H + 1, pos_L + 1].Mult(noyeau[2, 2]));
+                    return pixelvoisin;
+                }
+            } //Premiere colonne
+            if (pos_H == Hauteur - 1)
+            {
+                if (pos_L == 0)
+                {
+                    //Stratégie Miroir : pos_L - 1 (out of range) est pareil que pos_L + 1
+                    //                   pos_H + 1 (out of range) est pareil que pos_H - 1
+                    pixelvoisin.Add(MatPix[pos_H - 1, pos_L + 1].Mult(noyeau[0, 0]));
+                    pixelvoisin.Add(MatPix[pos_H - 1, pos_L].Mult(noyeau[0, 1]));
+                    pixelvoisin.Add(MatPix[pos_H - 1, pos_L + 1].Mult(noyeau[0, 2]));
+
+                    pixelvoisin.Add(MatPix[pos_H, pos_L + 1].Mult(noyeau[1, 0]));
+                    pixelvoisin.Add(MatPix[pos_H, pos_L].Mult(noyeau[1, 1]));
+                    pixelvoisin.Add(MatPix[pos_H, pos_L + 1].Mult(noyeau[1, 2]));
+
+                    pixelvoisin.Add(MatPix[pos_H - 1, pos_L + 1].Mult(noyeau[2, 0]));
+                    pixelvoisin.Add(MatPix[pos_H - 1, pos_L].Mult(noyeau[2, 1]));
+                    pixelvoisin.Add(MatPix[pos_H - 1, pos_L + 1].Mult(noyeau[2, 2]));
+                    return pixelvoisin;
+                }
+                if (pos_L == Largeur - 1)
+                {
+                    //Stratégie Miroir : pos_L + 1 (out of range) est pareil que pos_L - 1
+                    //                   pos_H + 1 (out of range) est pareil que pos_H - 1
+                    pixelvoisin.Add(MatPix[pos_H - 1, pos_L - 1].Mult(noyeau[0, 0]));
+                    pixelvoisin.Add(MatPix[pos_H - 1, pos_L].Mult(noyeau[0, 1]));
+                    pixelvoisin.Add(MatPix[pos_H - 1, pos_L - 1].Mult(noyeau[0, 2]));
+
+                    pixelvoisin.Add(MatPix[pos_H, pos_L - 1].Mult(noyeau[1, 0]));
+                    pixelvoisin.Add(MatPix[pos_H, pos_L].Mult(noyeau[1, 1]));
+                    pixelvoisin.Add(MatPix[pos_H, pos_L - 1].Mult(noyeau[1, 2]));
+
+                    pixelvoisin.Add(MatPix[pos_H - 1, pos_L - 1].Mult(noyeau[2, 0]));
+                    pixelvoisin.Add(MatPix[pos_H - 1, pos_L].Mult(noyeau[2, 1]));
+                    pixelvoisin.Add(MatPix[pos_H - 1, pos_L - 1].Mult(noyeau[2, 2]));
+                    return pixelvoisin;
+                }
+                else
+                {
+                    //Stratégie miroir : pos_H + 1 (out of range) est pareil que pos_H - 1
+                    pixelvoisin.Add(MatPix[pos_H - 1, pos_L - 1].Mult(noyeau[0, 0]));
+                    pixelvoisin.Add(MatPix[pos_H - 1, pos_L].Mult(noyeau[0, 1]));
+                    pixelvoisin.Add(MatPix[pos_H - 1, pos_L + 1].Mult(noyeau[0, 2]));
+
+                    pixelvoisin.Add(MatPix[pos_H, pos_L - 1].Mult(noyeau[1, 0]));
+                    pixelvoisin.Add(MatPix[pos_H, pos_L].Mult(noyeau[1, 1]));
+                    pixelvoisin.Add(MatPix[pos_H, pos_L + 1].Mult(noyeau[1, 2]));
+
+                    pixelvoisin.Add(MatPix[pos_H - 1, pos_L - 1].Mult(noyeau[2, 0]));
+                    pixelvoisin.Add(MatPix[pos_H - 1, pos_L].Mult(noyeau[2, 1]));
+                    pixelvoisin.Add(MatPix[pos_H - 1, pos_L + 1].Mult(noyeau[2, 2]));
+                    return pixelvoisin;
+                }
+            } //Derniere colonne
+            if (pos_H != 0 && pos_H != Hauteur - 1 && pos_L == 0)
+            {
+                //Stratégie Miroir : pos_L - 1 (out of range) est pareil que pos_L + 1
+                pixelvoisin.Add(MatPix[pos_H - 1, pos_L + 1].Mult(noyeau[0, 0]));
+                pixelvoisin.Add(MatPix[pos_H - 1, pos_L].Mult(noyeau[0, 1]));
+                pixelvoisin.Add(MatPix[pos_H - 1, pos_L + 1].Mult(noyeau[0, 2]));
+
+                pixelvoisin.Add(MatPix[pos_H, pos_L + 1].Mult(noyeau[1, 0]));
+                pixelvoisin.Add(MatPix[pos_H, pos_L].Mult(noyeau[1, 1]));
+                pixelvoisin.Add(MatPix[pos_H, pos_L + 1].Mult(noyeau[1, 2]));
+
+                pixelvoisin.Add(MatPix[pos_H + 1, pos_L + 1].Mult(noyeau[2, 0]));
+                pixelvoisin.Add(MatPix[pos_H + 1, pos_L].Mult(noyeau[2, 1]));
+                pixelvoisin.Add(MatPix[pos_H + 1, pos_L + 1].Mult(noyeau[2, 2]));
+                return pixelvoisin;
+            } //Premiere Ligne
+            if (pos_H != 0 && pos_H != Hauteur - 1 && pos_L == Largeur - 1)
+            {
+                //Stratégie Miroir : pos_L + 1 (out of range) est pareil que pos_L - 1
+                pixelvoisin.Add(MatPix[pos_H - 1, pos_L - 1].Mult(noyeau[0, 0]));
+                pixelvoisin.Add(MatPix[pos_H - 1, pos_L].Mult(noyeau[0, 1]));
+                pixelvoisin.Add(MatPix[pos_H - 1, pos_L - 1].Mult(noyeau[0, 2]));
+
+                pixelvoisin.Add(MatPix[pos_H, pos_L - 1].Mult(noyeau[1, 0]));
+                pixelvoisin.Add(MatPix[pos_H, pos_L].Mult(noyeau[1, 1]));
+                pixelvoisin.Add(MatPix[pos_H, pos_L - 1].Mult(noyeau[1, 2]));
+
+                pixelvoisin.Add(MatPix[pos_H + 1, pos_L - 1].Mult(noyeau[2, 0]));
+                pixelvoisin.Add(MatPix[pos_H + 1, pos_L].Mult(noyeau[2, 1]));
+                pixelvoisin.Add(MatPix[pos_H + 1, pos_L - 1].Mult(noyeau[2, 2]));
+                return pixelvoisin;
+            } //Derniere Ligne
+            else
+            {
+                pixelvoisin.Add(MatPix[pos_H - 1, pos_L - 1].Mult(noyeau[0, 0]));
+                pixelvoisin.Add(MatPix[pos_H - 1, pos_L].Mult(noyeau[0, 1]));
+                pixelvoisin.Add(MatPix[pos_H - 1, pos_L + 1].Mult(noyeau[0, 2]));
+
+                pixelvoisin.Add(MatPix[pos_H, pos_L - 1].Mult(noyeau[1, 0]));
+                pixelvoisin.Add(MatPix[pos_H, pos_L].Mult(noyeau[1, 1]));
+                pixelvoisin.Add(MatPix[pos_H, pos_L + 1].Mult(noyeau[1, 2]));
+
+                pixelvoisin.Add(MatPix[pos_H + 1, pos_L - 1].Mult(noyeau[2, 0]));
+                pixelvoisin.Add(MatPix[pos_H + 1, pos_L].Mult(noyeau[2, 1]));
+                pixelvoisin.Add(MatPix[pos_H + 1, pos_L + 1].Mult(noyeau[2, 2]));
+                return pixelvoisin;
+            }
         }
+
+        /// <summary>
+        /// Retourne une image filtrée
+        /// </summary>
+        /// <param name="type_de_floutage"> 1 : flou uniforme</param 1 >
+        /// <returns></returns>
+        public MyImage Filtre(int type_de_filtre)
+        {
+            Pixel[,] pixel_res = new Pixel[Hauteur, Largeur];
+            MyImage ImageFiltre = new MyImage(pixel_res);
+
+            switch (type_de_filtre)
+            {
+                //Flou uniforme
+                case 1:
+                {
+                    //noyau
+                    double[,] noyeau = new double[3, 3];
+                    for (int i = 0; i < noyeau.GetLength(0); i++)
+                    {
+                        for (int j = 0; j < noyeau.GetLength(1); j++)
+                        {
+                            noyeau[i, j] = 1.0 / 9.0;
+                        }
+                    }
+
+                    //Obtention d'image
+                    for (int i = 0; i < Hauteur; i++)
+                    {
+                        for (int j = 0; j < Largeur; j++)
+                        {
+                            ImageFiltre.MatPix[i, j] = MatPix[i, j].SommePix(Pixelvoisin_X_noyeau(noyeau, i, j));
+                        }
+                    }
+
+                    break;
+                }
+                    
+                //Flou de Gauss
+                case 2:
+                {
+                    //noyeau 
+                    double[,] noyeau = new double[3, 3];
+                    noyeau[0, 0] = 1.0 / 16.0;
+                    noyeau[0, 1] = 2.0 / 16.0;
+                    noyeau[0, 2] = 1.0 / 16.0;
+                    noyeau[1, 0] = 2.0 / 16.0;
+                    noyeau[1, 1] = 4.0 / 16.0;
+                    noyeau[1, 2] = 2.0 / 16.0;
+                    noyeau[2, 0] = 1.0 / 16.0;
+                    noyeau[2, 1] = 2.0 / 16.0;
+                    noyeau[2, 2] = 1.0 / 16.0;
+
+                    //Obtention d'image
+                    for (int i = 0; i < Hauteur; i++)
+                    {
+                        for (int j = 0; j < Largeur; j++)
+                        {
+                            ImageFiltre.MatPix[i, j] = MatPix[i, j].SommePix(Pixelvoisin_X_noyeau(noyeau, i, j));
+                        }
+                    }
+
+                    break;
+                }
+
+                //Détection des contour
+                case 3:
+                {
+                        
+                        //Filtre de Sobel
+                        //noyeau horizontale
+                        double[,] noyeau_h = new double[3, 3];
+                        noyeau_h[0, 0] = -1.0 ;
+                        noyeau_h[0, 1] = 0.0 ;
+                        noyeau_h[0, 2] = 1.0;
+                        noyeau_h[1, 0] = -2.0;
+                        noyeau_h[1, 1] = 0.0;
+                        noyeau_h[1, 2] = 2.0;
+                        noyeau_h[2, 0] = -1.0;
+                        noyeau_h[2, 1] = 0.0;
+                        noyeau_h[2, 2] = 1.0;
+
+                        MyImage Avec_noyeau_h = new MyImage(MatPix);
+
+                        //noyeau verticale
+                        double[,] noyeau_v = new double[3, 3];
+                        noyeau_v[0, 0] = -1.0;
+                        noyeau_v[0, 1] = -2.0;
+                        noyeau_v[0, 2] = -1.0;
+                        noyeau_v[1, 0] = 0.0;
+                        noyeau_v[1, 1] = 0.0;
+                        noyeau_v[1, 2] = 0.0;
+                        noyeau_v[2, 0] = 1.0;
+                        noyeau_v[2, 1] = 2.0;
+                        noyeau_v[2, 2] = 1.0;
+
+                        MyImage Avec_noyeau_v = new MyImage(MatPix);
+
+                        //Obtention d'image par noyeau horizontale
+                        for (int i = 0; i < Hauteur; i++)
+                        {
+                            for (int j = 0; j < Largeur; j++)
+                            {
+                                Pixel h = Avec_noyeau_h.MatPix[i, j];
+                                Pixel v = Avec_noyeau_v.MatPix[i, j];
+
+                                h = MatPix[i, j].SommePix(Pixelvoisin_X_noyeau(noyeau_h, i, j));
+                                v = MatPix[i, j].SommePix(Pixelvoisin_X_noyeau(noyeau_v, i, j));
+
+                                ImageFiltre.MatPix[i, j] = MatPix[i, j].Sum(h, v);
+                            }
+                        }                       
+
+                        /*
+                        for(int i = 0; i < Hauteur; i++)
+                        {
+                            for(int j = 0; j < Largeur; j++)
+                            {
+                                ImageFiltre.MatPix[i, j] = MatPix[i, j].Grey();
+
+                                if ((int)ImageFiltre.MatPix[i,j].Green >= 128)
+                                {
+                                    ImageFiltre.MatPix[i, j].Blue = 0;
+                                    ImageFiltre.MatPix[i, j].Green = 0;
+                                    ImageFiltre.MatPix[i, j].Red = 0;
+                                }
+                                else
+                                {
+                                    ImageFiltre.MatPix[i, j].Blue = 255;
+                                    ImageFiltre.MatPix[i, j].Green = 255;
+                                    ImageFiltre.MatPix[i, j].Red = 255;
+                                }
+                            }
+
+                        }
+                        */
+                        
+                        /*
+                        //noyeau
+                        double[,] noyeau = new double[3, 3];
+                        noyeau[0, 0] = 1.0;
+                        noyeau[0, 1] = 0.0;
+                        noyeau[0, 2] = -1.0;
+                        noyeau[1, 0] = 0.0;
+                        noyeau[1, 1] = 0.0;
+                        noyeau[1, 2] = 0.0;
+                        noyeau[2, 0] = -1.0;
+                        noyeau[2, 1] = 0.0;
+                        noyeau[2, 2] = 1.0;
+
+                        //Obtention de l'image
+                        for (int i = 0; i < Hauteur; i++)
+                        {
+                            for (int j = 0; j < Largeur; j++)
+                            {
+                                //MatPix[i, j].Grey();
+
+                                ImageFiltre.MatPix[i, j] = MatPix[i, j].SommePix(Pixelvoisin_X_noyeau(noyeau, i, j)).AbsolutePix();
+                                
+                            }
+                        }                       
+                        */
+                        break;
+                }
+            }
+            return ImageFiltre;
+        }
+
     }
 }

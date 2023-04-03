@@ -714,5 +714,22 @@ namespace ProblemeScientifique
             return ImageFiltre;
         }
 
+        public void Rotationfloatangle(float angle)
+        {
+            int centrex = largeur / 2;
+            int centrey = hauteur / 2;
+            double norme = Math.Sqrt(Math.Pow(centrex, 2) + Math.Pow(centrey, 2));
+            int normefinale = (int)((norme * 4) / 2 + 1);
+            Convert.ToInt32(norme);
+            Pixel[,] Imageretournee = new Pixel[normefinale, normefinale];
+            for (int i = 0; i < normefinale; i++)
+            {
+                for (int j = 0; j < normefinale; j++)
+                {
+                    Imageretournee[i, j];
+                }
+            }
+        }
+
     }
 }
